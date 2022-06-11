@@ -4,11 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:poke/const/settings.dart';
+import 'package:poke/shared/services/hive_box._service.dart';
 import 'dart:convert';
 import 'package:poke/shared/utils/string_helper.dart';
 
 class ApiService extends GetxService {
-  Box<Map<String, dynamic>>? _responseBox;
+  Box<dynamic>? _responseBox;
   @override
   onReady() {
     initBox();
@@ -16,7 +17,8 @@ class ApiService extends GetxService {
 
   /// initiate response box
   initBox() async {
-    _responseBox = Hive.box<Map<String, dynamic>>('box-response');
+    await Get.find<HiveBoxService>().init();
+    _responseBox = Hive.box<String>('box-response');
   }
 
   /// GET operation
@@ -36,8 +38,8 @@ class ApiService extends GetxService {
 
     if (_responseBox != null) {
       if (_responseBox!.get(u) != null) {
-        if (kDebugMode) print('response from cache');
-        return _responseBox!.get(u);
+        if (kDebugMode) log('response from cache');
+        return json.decode(_responseBox!.get(u));
       }
     }
     final res = await http
@@ -58,7 +60,7 @@ class ApiService extends GetxService {
     final res = response.body == 'ok' ? {} : json.decode(response.body);
     if ([200, 201].contains(response.statusCode)) {
       if (_responseBox != null) {
-        _responseBox!.put(response.request!.url, res);
+        _responseBox!.put(response.request!.url.toString(), response.body);
       }
       return res;
     } else {

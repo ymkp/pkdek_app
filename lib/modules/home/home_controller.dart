@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
-import 'package:poke/shared/models/pokemon_detail_model.dart';
 import 'package:poke/shared/models/pokemon_summary_model.dart';
 import 'package:poke/shared/services/api_service.dart';
 import 'package:poke/const/settings.dart' as settings;
@@ -12,8 +13,18 @@ class HomeController extends GetxController {
   final Rx<HomeListState> _state = HomeListState.ok.obs;
   HomeListState get state => _state.value;
   final ApiService _api = Get.find<ApiService>();
+  final Rxn<String> _nextPage = Rxn<String>();
+  String? get nextPage => _nextPage.value;
+  final RxInt _page = 0.obs;
+  int get page => _page.value;
+
+  @override
+  onReady() {
+    getPokemon();
+  }
 
   Future<void> getPokemon({int page = 1}) async {
+    _page.value = page;
     if (page == 1) {
       _state.value = HomeListState.loading;
     } else {
@@ -25,6 +36,8 @@ class HomeController extends GetxController {
         'limit': 20,
       });
       List<String> ns = (res['results'] as List).map((e) => e['name'].toString()).toList();
+      print(ns);
+      _nextPage.value = res['next'];
       if (page == 1) {
         _pokemonNames.assignAll(ns);
       } else {
@@ -32,6 +45,7 @@ class HomeController extends GetxController {
       }
       _state.value = HomeListState.ok;
     } catch (e) {
+      log('err : $e');
       if (page == 1) {
         _state.value = HomeListState.error;
       } else {
@@ -40,8 +54,13 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<PokemonSummaryModel> getPokemonDetail(String name) async {
-    final res = await _api.get(url: '${settings.getPokemonURL}/$name');
-    return PokemonSummaryModel.fromJson(res);
+  Future<PokemonSummaryModel> getPokemonMini(String name) async {
+    try {
+      final res = await _api.get(url: '${settings.getPokemonMiniURL}/$name');
+      return PokemonSummaryModel.fromJson(res);
+    } catch (e, ss) {
+      print('failed to get mini : $e');
+      return PokemonSummaryModel(natDex: 0, name: name, types: []);
+    }
   }
 }

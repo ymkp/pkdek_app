@@ -8,6 +8,6 @@ class HiveBoxService extends GetxService {
   }
 
   Future<void> initHiveResponseMap() async {
-    await Hive.openBox<Map<String, dynamic>>('box-response');
+    await Hive.openBox<String>('box-response');
   }
 }

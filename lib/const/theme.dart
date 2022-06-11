@@ -29,3 +29,9 @@ const cBlueDragon = Color(0xFF7038F8);
 const cBlueGhost = Color(0xFF705898);
 const cPinkFairy = Color(0xFFEE99AC);
 const cGreyUnknown = Color(0xFF68A090);
+
+const BoxShadow shadow1 = BoxShadow(
+  color: Colors.black38,
+  offset: Offset(0.0, 2.0),
+  blurRadius: 2.0,
+);

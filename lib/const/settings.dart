@@ -7,3 +7,5 @@ const int timeoutSeconds = 15;
 const String bulbapediaImgURL = 'https://archives.bulbagarden.net/media/upload/b/ba/';
 
 const String getPokemonURL = 'https://pokeapi.co/api/v2/pokemon';
+const String getPokemonMiniURL = 'https://pkdek.rutesatu.com/api/v1/pokemon';
+const String getPokemonHomeIMG = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/';

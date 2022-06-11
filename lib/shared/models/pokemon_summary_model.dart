@@ -1,23 +1,22 @@
+import 'dart:developer';
+
 /// model for pokemon summary mini
 class PokemonSummaryModel {
-  int id;
+  int natDex;
   String name;
   List<String> types;
-  String spriteImageUrl;
 
   PokemonSummaryModel({
-    required this.id,
+    required this.natDex,
     required this.name,
     required this.types,
-    required this.spriteImageUrl,
   });
 
   factory PokemonSummaryModel.fromJson(Map<String, dynamic> json) {
     return PokemonSummaryModel(
-      id: json['id'] ?? 0,
+      natDex: json['natDex'] ?? 0,
       name: json['name'] ?? '',
-      types: json['types'] ?? '',
-      spriteImageUrl: json['spriteImageUrl'] ?? '',
+      types: json['types'] != null ? (json['types'] as List).map((e) => e.toString()).toList() : [],
     );
   }
 }
