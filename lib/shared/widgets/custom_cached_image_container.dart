@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:pkdek/const/theme.dart';
-// import 'package:pkdek/shared/widgets/shimmer_rectangle_widget.dart';
+import 'package:poke/shared/widgets/small_loading_widget.dart';
 
+/// Caching image from URL
+/// passing it as image decoration in container
 class CustomCachedImageContainer extends StatelessWidget {
   const CustomCachedImageContainer({
     required this.imageURL,
@@ -31,7 +31,10 @@ class CustomCachedImageContainer extends StatelessWidget {
           height: height ?? MediaQuery.of(context).size.width * 0.67,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
           ),
           child: child,
         ),
@@ -54,7 +57,12 @@ class CustomCachedImageContainer extends StatelessWidget {
           );
         },
         placeholder: (context, e) {
-          return const CupertinoActivityIndicator();
+          return Container(
+            width: width ?? 50,
+            height: height ?? 50,
+            alignment: Alignment.center,
+            child: const SmallLoadingWidget(),
+          );
           // return const ShimmerRectangleWidget(
           //   height: 50,
           //   width: 50,

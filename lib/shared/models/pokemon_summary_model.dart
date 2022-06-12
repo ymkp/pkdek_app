@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 /// model for pokemon summary mini
 class PokemonSummaryModel {
   int natDex;

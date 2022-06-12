@@ -8,8 +8,7 @@ const TextStyle tsCardTitleTextStyle = TextStyle(fontWeight: FontWeight.w600, fo
 
 const TextStyle tsSectionTitle = TextStyle(fontWeight: FontWeight.w600, fontSize: 18);
 
-// ? COLORS
-
+/// colors based on pokemon types
 const cGreenGrass = Color(0xFF78C850);
 const cPurplePoison = Color(0xFFA040A0);
 const cOrangeFire = Color(0xFFF08030);

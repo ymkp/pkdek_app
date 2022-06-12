@@ -3,12 +3,17 @@ import 'package:get/get.dart';
 import 'package:poke/const/theme.dart';
 import 'package:poke/modules/home/home_controller.dart';
 import 'package:poke/modules/home/widgets/pokemon_type_chip.dart';
+import 'package:poke/routes/app_pages.dart';
 import 'package:poke/shared/models/pokemon_summary_model.dart';
 import 'package:poke/shared/widgets/custom_cached_image_container.dart';
-import 'package:poke/shared/widgets/loading_widget.dart';
 import 'package:poke/const/settings.dart' as settings;
 import 'package:poke/shared/utils/type_color_helper.dart' as color_helper;
+import 'package:poke/shared/utils/string_helper.dart' as string_helper;
+import 'package:poke/shared/widgets/small_loading_widget.dart';
 
+/// Card used in Homescreen
+/// after pokemon names has been fetched from pokeapi,
+/// get summary info from pkdek.rutesatu.com for types
 class PokemonSummaryCard extends GetView<HomeController> {
   const PokemonSummaryCard(this.name);
   final String name;
@@ -20,6 +25,7 @@ class PokemonSummaryCard extends GetView<HomeController> {
       builder: (context, data) {
         if (data.hasData) {
           return InkWell(
+            onTap: () => Get.toNamed('${Routes.detail}/$name'),
             child: Container(
                 padding: const EdgeInsets.only(
                   left: 15,
@@ -60,7 +66,7 @@ class PokemonSummaryCard extends GetView<HomeController> {
                         Expanded(
                           flex: 1,
                           child: Text(
-                            '#${data.data!.natDex}',
+                            string_helper.nationalDexNumber(data.data!.natDex),
                             style: tsCardTitleTextStyle,
                           ),
                         )
@@ -70,7 +76,7 @@ class PokemonSummaryCard extends GetView<HomeController> {
                 )),
           );
         } else {
-          return LoadingWIdget();
+          return const SmallLoadingWidget();
         }
       },
     );

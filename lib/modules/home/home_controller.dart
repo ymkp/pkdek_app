@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:poke/shared/models/pokemon_summary_model.dart';
 import 'package:poke/shared/services/api_service.dart';
@@ -23,6 +24,9 @@ class HomeController extends GetxController {
     getPokemon();
   }
 
+  /// Get pokemon names in pokeapi
+  /// I think it's the most efficient way to fetch name
+  /// without getting unnecessary data
   Future<void> getPokemon({int page = 1}) async {
     _page.value = page;
     if (page == 1) {
@@ -36,7 +40,6 @@ class HomeController extends GetxController {
         'limit': 20,
       });
       List<String> ns = (res['results'] as List).map((e) => e['name'].toString()).toList();
-      print(ns);
       _nextPage.value = res['next'];
       if (page == 1) {
         _pokemonNames.assignAll(ns);
@@ -54,12 +57,15 @@ class HomeController extends GetxController {
     }
   }
 
+  /// Get pokemon types from pkdek.rutesatu
+  /// I think it's the most efficient way to fetch name
+  /// without getting unnecessary data
   Future<PokemonSummaryModel> getPokemonMini(String name) async {
     try {
       final res = await _api.get(url: '${settings.getPokemonMiniURL}/$name');
       return PokemonSummaryModel.fromJson(res);
-    } catch (e, ss) {
-      print('failed to get mini : $e');
+    } catch (e) {
+      if (kDebugMode) print('failed to get mini : $e');
       return PokemonSummaryModel(natDex: 0, name: name, types: []);
     }
   }

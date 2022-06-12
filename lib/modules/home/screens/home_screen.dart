@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:poke/modules/home/home_controller.dart';
 import 'package:poke/modules/home/widgets/pokemon_summary_card.dart';
 
+/// As the name says. This is the homescreen
 class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
@@ -14,12 +15,14 @@ class HomeScreen extends GetView<HomeController> {
             },
             child: Obx(() => NotificationListener<ScrollNotification>(
                   onNotification: (ScrollNotification scrollInfo) {
+                    /// Check if scroll is in the end edge of screen.
+                    /// check if state is not in loading or fetch state.
+                    /// check if next screen is still available
                     if (scrollInfo is ScrollEndNotification &&
-                            scrollInfo.metrics.extentAfter == 0 && // ? <-- bener2 mentok sampai ada splash-nya
-                            controller.state == HomeListState.ok && //? <-- kondisi tambahan, cuma reload kalau lagi tidak loading
-                            controller.nextPage != null //? <-- kondisi tambahan, cuma reload kalau bukan halaman/paginasi terakhir
-                        ) {
-                      controller.getPokemon(page: controller.page + 1); //? <-- yang dilakukan untuk get next items
+                        scrollInfo.metrics.extentAfter == 0 &&
+                        controller.state == HomeListState.ok &&
+                        controller.nextPage != null) {
+                      controller.getPokemon(page: controller.page + 1);
                       return true;
                     }
                     return false;

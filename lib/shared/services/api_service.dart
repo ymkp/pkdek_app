@@ -8,6 +8,7 @@ import 'package:poke/shared/services/hive_box._service.dart';
 import 'dart:convert';
 import 'package:poke/shared/utils/string_helper.dart';
 
+/// API Service that try to cache responses
 class ApiService extends GetxService {
   Box<dynamic>? _responseBox;
   @override
@@ -21,7 +22,10 @@ class ApiService extends GetxService {
     _responseBox = Hive.box<String>('box-response');
   }
 
-  /// GET operation
+  /// GET operation.
+  /// if url + query is found in box
+  /// return box
+  /// else, request http
   Future<dynamic> get({
     required String url,
     Map<String, String>? header,
@@ -74,9 +78,6 @@ class ApiService extends GetxService {
       switch (errMsg) {
         case 'Not Found':
           thrownMsg = 'Tidak ditemukan';
-          break;
-        case 'Unauthorized':
-          thrownMsg = (response.request!.url.toString().split('/').last == 'login') ? 'Password salah' : 'Tidak terotorisasi';
           break;
         default:
           thrownMsg = errMsg;

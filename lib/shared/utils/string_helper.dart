@@ -14,3 +14,14 @@ String getQueryStringFromMap(Map<String, dynamic> map) {
   });
   return a;
 }
+
+/// adding hash sign in number
+String nationalDexNumber(int i) {
+  if (i < 10) {
+    return '#00$i';
+  } else if (i < 100) {
+    return '#0$i';
+  } else {
+    return '#$i';
+  }
+}
