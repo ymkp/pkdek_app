@@ -42,7 +42,7 @@ class DetailImageSection extends GetView<DetailController> {
                 // controller.getPokemonDetail((controller.detail.id + 1).toString());
               },
               child: CustomCachedImageContainer(
-                imageURL: '${settings.getPokemonSpriteIMG}${controller.detail.id + 2}.png',
+                imageURL: '${settings.getPokemonSpriteIMG}${controller.detail.id + 1}.png',
                 width: MediaQuery.of(context).size.width / 6,
                 height: MediaQuery.of(context).size.width / 6,
               ),
